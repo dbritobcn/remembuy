@@ -1,14 +1,23 @@
 import React from "react";
 import { Title, Item } from "./ShoppingItem.styles";
+import { todosRef } from "../../FirebaseSetup";
 
-interface Props {
-  title: string;
-}
+export const ShoppingItem = (props: any) => {
+  const { item } = props;
 
-export const ShoppingItem: React.FC<Props> = ({ title }) => {
+  const updateItem = () => {
+    todosRef
+      .child(item.id)
+      .set({ ...item, done: item.done !== undefined ? !item.done : true });
+  };
+
+  const deleteItem = () => {
+    todosRef.child(item.id).remove();
+  };
+
   return (
     <Item>
-      <Title>{title}</Title>
+      <Title>{item.title}</Title>
     </Item>
   );
 };
